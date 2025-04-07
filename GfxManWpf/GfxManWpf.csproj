@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net481</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <LangVersion>default</LangVersion>
+        <ApplicationIcon>handheld.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GfxMan.Services\GfxMan.Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="handheld.ico">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+        <Resource Include="handheld.ico" />
+    </ItemGroup>
+
+</Project>
