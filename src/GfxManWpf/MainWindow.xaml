@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GfxManWpf"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         mc:Ignorable="d"
+        
         Height="450" Width="800"
-        Icon="handheld.ico"
+        Icon="{x:Static Member=local:App.MainIconImageSource}"
         Title="{Binding TitleText, Mode=OneWay}">
     <Grid Margin="12">
         <Grid.Resources>

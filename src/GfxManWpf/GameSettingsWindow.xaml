@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GfxManWpf"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         mc:Ignorable="d"
-        Icon="handheld.ico"
+        Icon="{x:Static Member=local:App.MainIconImageSource}"
         Title="Game Settings" Height="450" Width="800"
         >
     <Window.Resources>

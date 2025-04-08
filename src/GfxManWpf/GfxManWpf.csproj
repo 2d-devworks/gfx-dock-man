@@ -5,7 +5,15 @@
         <TargetFramework>net481</TargetFramework>
         <UseWPF>true</UseWPF>
         <LangVersion>default</LangVersion>
-        <ApplicationIcon>handheld.ico</ApplicationIcon>
+        <ApplicationIcon>Assets\handheld.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,10 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="handheld.ico">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-        <Resource Include="handheld.ico" />
+      <Resource Include="Assets\handheld.ico" />
     </ItemGroup>
 
 </Project>

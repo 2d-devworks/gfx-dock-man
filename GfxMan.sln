@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxManCli", "GfxManCli\GfxManCli.csproj", "{840BA10A-E74B-4368-9F2B-F0358A6156DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxManCli", "src\GfxManCli\GfxManCli.csproj", "{840BA10A-E74B-4368-9F2B-F0358A6156DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxMan.Services", "GfxMan.Services\GfxMan.Services.csproj", "{2395CFC5-A75F-44AA-AC45-EA661D5DFA65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxMan.Services", "src\GfxMan.Services\GfxMan.Services.csproj", "{2395CFC5-A75F-44AA-AC45-EA661D5DFA65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxManWpf", "GfxManWpf\GfxManWpf.csproj", "{0ECC10B9-CE2B-4F82-8D24-27DE37A29B6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxManWpf", "src\GfxManWpf\GfxManWpf.csproj", "{0ECC10B9-CE2B-4F82-8D24-27DE37A29B6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
