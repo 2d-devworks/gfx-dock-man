@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media;
 using GfxMan.Services;
 using GfxMan.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,10 +17,13 @@ namespace GfxManWpf;
 /// </summary>
 public partial class App
 {
+    private const string MainIconResourceUri = "pack://application:,,,/GfxManWpf;component/Assets/handheld.ico";
+    
     private ServiceProvider _serviceProvider;
     private IGraphicsSettingManager _graphicsSettingManager;
 
     public const string TitleText = "Graphics Dock Manager [{0}]";
+    public static ImageSource MainIconImageSource => new ImageSourceConverter().ConvertFromString(MainIconResourceUri) as ImageSource;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -30,7 +34,7 @@ public partial class App
             config.AddConsole();
         });
         services.AddSingleton(tokenSource);
-        services.AddSingleton<IGraphicsSettingManager, GraphicsSettingManager>();
+        services.AddGfxManServices();
         services.AddSingleton<MainWindow>();
         
         _serviceProvider = services.BuildServiceProvider();
@@ -48,8 +52,13 @@ public partial class App
     private void SetupTrayIcon(MainWindow window, CancellationTokenSource tokenSource)
     {
         var trayIcon = new NotifyIcon();
-        trayIcon.Text = string.Format(TitleText, _graphicsSettingManager.StatusText);
-        trayIcon.Icon = new Icon("handheld.ico");
+        trayIcon.Text = string.Format(TitleText, _graphicsSettingManager.ActiveConfig);
+        using (var iconStream =
+               GetResourceStream(new Uri(MainIconResourceUri))!.Stream)
+        {
+            trayIcon.Icon = new Icon(iconStream);
+        }
+        
         trayIcon.Visible = true;
         trayIcon.MouseDoubleClick += (_,_) =>
         {
@@ -59,7 +68,7 @@ public partial class App
         trayIcon.ContextMenu = GetContextMenu(window, tokenSource);
         _graphicsSettingManager.OnStatusChanged += (_,_) =>
         {
-            trayIcon.Text = string.Format(TitleText, _graphicsSettingManager.StatusText);
+            trayIcon.Text = string.Format(TitleText, _graphicsSettingManager.ActiveConfig);
         };
     }
 
@@ -68,13 +77,13 @@ public partial class App
         var menu = new ContextMenu();
         
         var statusItem = new MenuItem();
-        statusItem.Text = _graphicsSettingManager.StatusText;
+        statusItem.Text = _graphicsSettingManager.ActiveConfig;
 
         _graphicsSettingManager.OnStatusChanged += (_,_) =>
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                statusItem.Text = _graphicsSettingManager.StatusText;
+                statusItem.Text = _graphicsSettingManager.ActiveConfig;
             }));
 
         };

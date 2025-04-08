@@ -41,25 +41,25 @@ builder.Services.AddLogging(config =>
     });
 });
 
-builder.Services.AddSingleton<IGraphicsSettingManager, GraphicsSettingManager>();
+builder.Services.AddGfxManServices();
 builder.Services.AddHostedService<GfxManWorker>();
 
 using var host = builder.Build();
 var gfxMan = host.Services.GetService<IGraphicsSettingManager>();
-if (gfxMan != null && args.Length != 0)
-{
-    if (args.Contains("-docked"))
-    {
-        gfxMan.SetToDocked();
-    }
-    else if(args.Contains("-undocked"))
-    {
-        gfxMan.SetToUndocked();
-    }
-    
-    gfxMan.SaveConfig();
-}
-else
-{
+// if (gfxMan != null && args.Length != 0)
+// {
+//     if (args.Contains("-docked"))
+//     {
+//         gfxMan.SetToDocked();
+//     }
+//     else if(args.Contains("-undocked"))
+//     {
+//         gfxMan.SetToUndocked();
+//     }
+//     
+//     gfxMan.SaveConfig();
+// }
+// else
+// {
     host.Run();
-}
+// }

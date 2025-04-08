@@ -5,10 +5,4 @@ public class GameInfo
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;
     public List<string> SettingsFiles { get; set; } = [];
-
-    public void OverwriteWith(GameInfo gameInfo)
-    {
-        Name = gameInfo.Name;
-        SettingsFiles = gameInfo.SettingsFiles;
-    }
 }

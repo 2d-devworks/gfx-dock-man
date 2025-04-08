@@ -19,7 +19,7 @@ public partial class MainWindow : INotifyPropertyChanged
 {
     private readonly IGraphicsSettingManager _graphicsSettingManager;
     
-    public string StatusText => _graphicsSettingManager.StatusText;
+    public string StatusText => _graphicsSettingManager.ActiveConfig;
     
     public string TitleText => string.Format(App.TitleText, StatusText);
 

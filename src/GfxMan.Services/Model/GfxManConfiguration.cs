@@ -1,8 +1,11 @@
 ﻿namespace GfxMan.Services.Model;
 
-public class MyConfiguration
+public class GfxManConfiguration
 {
-    public bool IsConfiguredAsDocked { get; set; }
+    public ICollection<GfxConfigOption> ConfigurationOptions { get; set; } = new List<GfxConfigOption>();
+    
+    public string ActiveConfiguration { get; set; }
+    
     public string InstalledGamesSourceConfig { get; set; } = string.Empty;
     public ICollection<GameInfo> ConfiguredGames { get; set; } = new List<GameInfo>();
 }
