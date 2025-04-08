@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Management;
 using GfxMan.Services.Interfaces;
+using GfxMan.Services.Model;
 using Microsoft.Extensions.Logging;
 
 namespace GfxMan.Services;
@@ -16,8 +17,14 @@ public class DisplayAdapterService : IDisplayAdapterService
     public DisplayAdapterService(ILogger<DisplayAdapterService> logger)
     {
         _logger = logger;
+        
+        var gfxConfigOption = new GfxConfigOption();
+        PrimaryDisplayWidth = gfxConfigOption.PrimaryDisplayWidth;
+        PrimaryDisplayHeight = gfxConfigOption.PrimaryDisplayHeight;
+        
         var adapters = new ManagementObjectSearcher("select * from Win32_VideoController").Get();
         DisplayAdapters = new ConcurrentDictionary<string, bool>();
+        
         foreach (var adapter in adapters)
         {
             DisplayAdapters.AddOrUpdate(adapter["Name"].ToString(), adapter["Status"].ToString() == "OK", (_, oldValue) => oldValue);
@@ -25,8 +32,8 @@ public class DisplayAdapterService : IDisplayAdapterService
     }
 
     public ConcurrentDictionary<string, bool> DisplayAdapters { get; }
-    public int PrimaryDisplayWidth { get; } = 1920;
-    public int PrimaryDisplayHeight { get; } = 1080;
+    public int PrimaryDisplayWidth { get; }
+    public int PrimaryDisplayHeight { get; }
     
     public event EventHandler OnStatusChanged
     {
