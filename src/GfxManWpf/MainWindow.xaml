@@ -1,36 +1,62 @@
-﻿<Window x:Class="GfxManWpf.MainWindow"
+﻿<ui:FluentWindow x:Class="GfxManWpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GfxManWpf"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         mc:Ignorable="d"
-        
-        Height="450" Width="800"
-        Icon="{x:Static Member=local:App.MainIconImageSource}"
-        Title="{Binding TitleText, Mode=OneWay}">
-    <Grid Margin="12">
-        <Grid.Resources>
-        </Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition />
-            <RowDefinition Height="30" />
-        </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" >
-            <TextBlock Margin="2">Status:</TextBlock>
-            <TextBlock Margin="2" Text="{Binding StatusText, Mode=OneWay}" FontWeight="Bold"></TextBlock>
+        Height="650" Width="800"
+>
+    <DockPanel>
+        <ui:TitleBar DockPanel.Dock="Top" Title="{Binding TitleText, Mode=OneWay}" Icon="pack://application:,,,/GfxManWpf;component/Assets/2d-devworks.ico" ></ui:TitleBar>
+        <Menu DockPanel.Dock="Top">
+            <ui:MenuItem Header="_File">
+                <MenuItem Header="_Exit"></MenuItem>
+            </ui:MenuItem>
+            <ui:MenuItem Header="_Edit"></ui:MenuItem>
+            <ui:MenuItem Header="_About"></ui:MenuItem>
+        </Menu>
+        <StackPanel DockPanel.Dock="Top" Margin="12" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" >
+            <ui:TextBlock Margin="2">Active Config:</ui:TextBlock>
+            <ui:TextBlock Margin="2" Text="{Binding StatusText, Mode=OneWay}" FontWeight="Bold"></ui:TextBlock>
         </StackPanel>
-        <ListView ItemsSource="{Binding ConfiguredGames}" Grid.Row="1" Grid.Column="0" MouseDoubleClick="GamesListView_MouseDoubleClick">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"></GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Left" Orientation="Horizontal">
-            <Button Name="AddGameButton" Margin="2" Width="75" Height="25" Click="AddGameButton_OnClick">Add Game</Button>
-        </StackPanel>
-    </Grid>
-</Window>
+        <TabControl DockPanel.Dock="Top" Margin="12">
+            <TabItem Header="Games">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <ui:ListView HorizontalAlignment="Stretch" ItemsSource="{Binding ConfiguredGames}" MouseDoubleClick="GamesListView_MouseDoubleClick">
+                        <ListView.View>
+                            <ui:GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"></GridViewColumn>
+                            </ui:GridView>
+                        </ListView.View>
+                    </ui:ListView>
+                    <ui:Button Grid.Row="1" HorizontalAlignment="Left" Margin="2" Width="Auto" Height="Auto" Click="AddGameButton_OnClick">Add Game</ui:Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Configurations">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <ui:ListView HorizontalAlignment="Stretch" ItemsSource="{Binding DisplayConfigurations}" MouseDoubleClick="ConfigurationsListView_MouseDoubleClick">
+                        <ListView.View>
+                            <ui:GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="Auto"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding PrimaryDisplayDriverName}" Header="Display Adapter" Width="Auto"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding PrimaryDisplayMaxWidth}" Header="Width" Width="50"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding PrimaryDisplayMaxHeight}" Header="Height" Width="50"></GridViewColumn>
+                            </ui:GridView>
+                        </ListView.View>
+                    </ui:ListView>
+                    <ui:Button Grid.Row="1" HorizontalAlignment="Left" Margin="2" Width="Auto" Height="Auto" Click="AddConfigurationButton_OnClick">Add Configuration</ui:Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</ui:FluentWindow>

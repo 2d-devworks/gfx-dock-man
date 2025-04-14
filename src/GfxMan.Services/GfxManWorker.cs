@@ -10,6 +10,6 @@ public class GfxManWorker(ILogger<GfxManWorker> logger, IGraphicsSettingManager 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-        await graphicsSettingManager.Scan(stoppingToken);
+        await graphicsSettingManager.WatchForChanges(stoppingToken);
     }
 }

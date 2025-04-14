@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxMan.Services", "src\GfxM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxManWpf", "src\GfxManWpf\GfxManWpf.csproj", "{0ECC10B9-CE2B-4F82-8D24-27DE37A29B6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GfxMan.Services.Tests", "tests\GfxMan.Services.Tests\GfxMan.Services.Tests.csproj", "{7429609D-65E9-4C57-B15B-5E4344F416B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{0ECC10B9-CE2B-4F82-8D24-27DE37A29B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ECC10B9-CE2B-4F82-8D24-27DE37A29B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ECC10B9-CE2B-4F82-8D24-27DE37A29B6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7429609D-65E9-4C57-B15B-5E4344F416B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7429609D-65E9-4C57-B15B-5E4344F416B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7429609D-65E9-4C57-B15B-5E4344F416B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7429609D-65E9-4C57-B15B-5E4344F416B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

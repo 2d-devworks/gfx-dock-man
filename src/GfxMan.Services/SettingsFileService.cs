@@ -2,10 +2,11 @@
 using System.Text.Json;
 using GfxMan.Services.Interfaces;
 using GfxMan.Services.Model;
+using Microsoft.Extensions.Logging;
 
 namespace GfxMan.Services;
 
-public class SettingsFileService(IFileSystem fileSystem) : ISettingsFileService
+public class SettingsFileService(IFileSystem fileSystem, ILogger<SettingsFileService> logger) : ISettingsFileService
 {
     private const string AppDataFolder = "2d-devworks\\GfxMan";
     private const string SettingsFileName = "settings.json";
@@ -45,6 +46,66 @@ public class SettingsFileService(IFileSystem fileSystem) : ISettingsFileService
         else
         {
             return new GfxManConfiguration();
+        }
+    }
+
+    public void SwitchGameConfiguration(GameInfo game, string fromConfig, string toConfig)
+    {
+        var configFiles = game.SettingsFiles;
+        foreach (var configFile in configFiles)
+        {
+            if (string.IsNullOrWhiteSpace(configFile))
+            {
+                continue;
+            }
+            
+            if (fileSystem.File.Exists(configFile))
+            {
+                fileSystem.File.Copy(configFile, $"{configFile}.{fromConfig}", true);
+            }
+        
+            if (fileSystem.File.Exists($"{configFile}.{toConfig}"))
+            {
+                fileSystem.File.Copy($"{configFile}.{toConfig}", configFile, true);
+            }
+        }
+    }
+
+    public void RenameAllGameConfigurationOptionFiles(GfxManConfiguration configuration, string fromConfig, string toConfig)
+    {
+        foreach (var game in configuration.ConfiguredGames)
+        {
+            RenameGameSettingsFilesForConfig(game, fromConfig, toConfig);
+        }
+    }
+    
+    private void RenameGameSettingsFilesForConfig(GameInfo gameInfo, string fromConfig, string toConfig)
+    {
+        var configFiles = gameInfo.SettingsFiles;
+        foreach (var configFile in configFiles)
+        {
+            if (string.IsNullOrWhiteSpace(configFile))
+            {
+                continue;
+            }
+
+            try
+            {
+                var oldName = $"{configFile}.{fromConfig}";
+                var newName = $"{configFile}.{toConfig}";
+                if (!fileSystem.File.Exists(oldName))
+                {
+                    continue;
+                }
+
+                fileSystem.File.Move(oldName, newName);
+                logger.LogInformation($"{gameInfo.Name}:  renamed settings file {fromConfig} to {toConfig}.");
+                
+            }
+            catch
+            {
+                logger.LogError($"An error occured renaming settings for game {gameInfo.Name} from {fromConfig} to {toConfig}");
+            }
         }
     }
 }
