@@ -8,10 +8,9 @@ using System.Runtime.InteropServices;
 
 var builder = Host.CreateApplicationBuilder();
 
-// See https://aka.ms/new-console-template for more information
 builder.Configuration.Sources.Clear();
 
-IHostEnvironment env = builder.Environment;
+var env = builder.Environment;
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -46,20 +45,20 @@ builder.Services.AddHostedService<GfxManWorker>();
 
 using var host = builder.Build();
 var gfxMan = host.Services.GetService<IGraphicsSettingManager>();
-// if (gfxMan != null && args.Length != 0)
-// {
-//     if (args.Contains("-docked"))
-//     {
-//         gfxMan.SetToDocked();
-//     }
-//     else if(args.Contains("-undocked"))
-//     {
-//         gfxMan.SetToUndocked();
-//     }
-//     
-//     gfxMan.SaveConfig();
-// }
-// else
-// {
+
+const string configArg = "-config";
+var configArgIndex = Array.IndexOf(args, configArg);
+
+if (gfxMan != null && configArgIndex > -1 && args.Length > configArgIndex + 2)
+{
+    var config = args[Array.IndexOf(args, configArg) + 1];
+    if (gfxMan.Configuration.ConfigurationOptions.All(n => n.Name != configArg))
+    {
+        Console.WriteLine($"A configuration named {config} was not found. The active configuration is {gfxMan.Configuration.ActiveConfiguration}.");
+    }
+    gfxMan.ChangeActiveConfiguration(config);
+}
+else
+{
     host.Run();
-// }
+}

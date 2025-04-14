@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Forms;
 using GfxMan.Services.Model;
 using Button = System.Windows.Controls.Button;
-using MessageBox = System.Windows.MessageBox;
 
 namespace GfxManWpf;
 
@@ -88,5 +87,10 @@ public partial class GameSettingsWindow
     {
         if (sender is not Button button) return;
         MySettingsFiles.Remove(button.DataContext as string);
+    }
+
+    protected override void OnActivated(EventArgs e)
+    {
+        NameTextBox.Focus();
     }
 }

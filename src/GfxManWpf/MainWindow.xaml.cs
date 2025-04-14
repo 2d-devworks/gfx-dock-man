@@ -29,6 +29,12 @@ public partial class MainWindow : INotifyPropertyChanged
         set => _graphicsSettingManager.Configuration.ConfiguredGames = value;
     }
 
+    public ICollection<GfxConfigOption> DisplayConfigurations
+    {
+        get => _graphicsSettingManager.Configuration.ConfigurationOptions;
+        set => _graphicsSettingManager.Configuration.ConfigurationOptions = value;
+    }
+
     public MainWindow(IGraphicsSettingManager graphicsSettingManager)
     {
         _graphicsSettingManager = graphicsSettingManager;
@@ -40,6 +46,10 @@ public partial class MainWindow : INotifyPropertyChanged
                 OnPropertyChanged(nameof(TitleText));
             }));
 
+        };
+        Loaded += (_, _) =>
+        {
+            Wpf.Ui.Appearance.SystemThemeWatcher.Watch(this);
         };
         InitializeComponent();
         Visibility = Visibility.Hidden;
@@ -95,6 +105,70 @@ public partial class MainWindow : INotifyPropertyChanged
             _graphicsSettingManager.SaveConfig();
             OnPropertyChanged(nameof(ConfiguredGames));
             MessageBox.Show("Game settings have been saved.");
+        }
+        catch
+        {
+            MessageBox.Show("An error occurred while saving the settings.");
+        }
+    }
+
+    private void ConfigurationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not ListView { SelectedItem: GfxConfigOption option }) return;
+        
+        CreateGfxConfigurationWindow(option);
+    }
+
+    private void AddConfigurationButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        var option = new GfxConfigOption()
+        {
+            Name = "NEW",
+            PrimaryDisplayDriverName = _graphicsSettingManager.CurrentDisplayAdapter,
+            PrimaryDisplayMaxHeight = _graphicsSettingManager.CurrentDisplayMaxHeight,
+            PrimaryDisplayMaxWidth = _graphicsSettingManager.CurrentDisplayMaxWidth,
+        };
+        CreateGfxConfigurationWindow(option);
+    }
+
+    private void CreateGfxConfigurationWindow(GfxConfigOption configOption)
+    {
+        var configurationWindow = new ConfigurationOptionsWindow(configOption);
+        configurationWindow.OnOptionSaved += (_, e) =>
+        {
+            if (e is not GfxConfigOptionEventArgs args) return;
+            SaveConfigurationOption(configurationWindow, args);
+        };
+        configurationWindow.Show();
+        configurationWindow.Focus();
+    }
+
+    private void SaveConfigurationOption(ConfigurationOptionsWindow window, GfxConfigOptionEventArgs args)
+    {
+        try
+        {
+            var item = DisplayConfigurations.FirstOrDefault(n => n.Name == args.ConfigOption.Name);
+            
+            if (item == null)
+            {
+                DisplayConfigurations.Add(args.ConfigOption);
+                _graphicsSettingManager.SaveConfig();
+            }
+            
+            if (DisplayConfigurations.Count(n => n.Name == args.ConfigOption.Name) > 1)
+            {
+                MessageBox.Show($"A configuration named {args.ConfigOption.Name} already exists.");
+                window.Model.Name = args.OldName;
+                return;
+            }
+
+            if (args.OldName != args.ConfigOption.Name)
+            {
+                _graphicsSettingManager.RenameConfigurationOption(args.OldName, args.ConfigOption.Name);
+            }
+            
+            OnPropertyChanged(nameof(DisplayConfigurations));
+            MessageBox.Show("Configuration option has been saved.");
         }
         catch
         {
