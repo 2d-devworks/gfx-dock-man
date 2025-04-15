@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,6 +35,8 @@ public partial class App
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
+        
         var services = new ServiceCollection();
         var tokenSource = new CancellationTokenSource();
         services.AddLogging(config =>
@@ -57,6 +61,17 @@ public partial class App
         {
             await _graphicsSettingManager.WatchForChanges(tokenSource.Token);
         }, tokenSource.Token);
+    }
+    
+    private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
+    {
+        var assemblyName = new AssemblyName(args.Name).Name + ".dll";
+        var probingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lib", assemblyName);
+
+        if (File.Exists(probingPath))
+            return Assembly.LoadFrom(probingPath);
+
+        return null;
     }
     
     private void SetupTrayIcon(MainWindow window, CancellationTokenSource tokenSource, ILogger<App> logger)
