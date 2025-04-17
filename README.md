@@ -22,3 +22,5 @@ Once the application has some games to care about and some configs to swap to, a
  13. A game can have more than 1 display settings file
  14. Click "Save Changes" when Done
  15. Now you just need to set the game's settings how you want while you're in a particular configuration. It should swap out the game's files as needed.
+
+Feel free to visit my very basic [Discord Server](https://discord.gg/BtGyKye8Ef) if you need help
