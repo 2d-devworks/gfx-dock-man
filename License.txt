@@ -1,0 +1,5 @@
+Copyright (c) 2025 2D Devworks, LLC
+
+Permission is hereby granted to any individual or organization to use, copy, modify, and distribute this software for personal, educational, or non-commercial purposes.
+
+Commercial use, including but not limited to selling, sublicensing, or distributing this software as part of a commercial product or service, is strictly prohibited without explicit written permission from the copyright holder.
