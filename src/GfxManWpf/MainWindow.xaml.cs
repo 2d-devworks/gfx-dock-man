@@ -175,4 +175,9 @@ public partial class MainWindow : INotifyPropertyChanged
             MessageBox.Show("An error occurred while saving the settings.");
         }
     }
+
+    private void OnExitClicked(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
 }

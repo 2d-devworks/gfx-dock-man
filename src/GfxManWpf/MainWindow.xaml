@@ -12,10 +12,11 @@
         <ui:TitleBar DockPanel.Dock="Top" Title="{Binding TitleText, Mode=OneWay}" Icon="pack://application:,,,/GfxManWpf;component/Assets/2d-devworks.ico" ></ui:TitleBar>
         <Menu DockPanel.Dock="Top">
             <ui:MenuItem Header="_File">
-                <MenuItem Header="_Exit"></MenuItem>
+                <MenuItem Header="New Game" Click="AddGameButton_OnClick"></MenuItem>
+                <MenuItem Header="New Configuration" Click="AddConfigurationButton_OnClick"></MenuItem>
+                <Separator />
+                <MenuItem Header="E_xit" Click="OnExitClicked"></MenuItem>
             </ui:MenuItem>
-            <ui:MenuItem Header="_Edit"></ui:MenuItem>
-            <ui:MenuItem Header="_About"></ui:MenuItem>
         </Menu>
         <StackPanel DockPanel.Dock="Top" Margin="12" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" >
             <ui:TextBlock Margin="2">Active Config:</ui:TextBlock>

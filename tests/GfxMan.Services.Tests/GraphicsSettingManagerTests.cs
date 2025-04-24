@@ -21,22 +21,26 @@ public class GraphicsSettingManagerTests
     {
         Task.Run(async () => await target.WatchForChanges(watcherCanceller.CancellationTokenSource.Token), watcherCanceller.CancellationTokenSource.Token);
         
-        var counter = 0;
+        const int waitMilliseconds = 250;
+        const int timeoutMilliseconds = 3000;
+        
+        var millisecondsWatched = 0;
         while (!watcherCanceller.CancellationTokenSource.IsCancellationRequested)
         {
-            switch (counter)
+            
+            switch (millisecondsWatched)
             {
-                case > 20:
+                case timeoutMilliseconds:
                     watcherCanceller.Cancel();
                     throw new TimeoutException();
-                case 4:
+                case 250:
                     setNewStatus();
                     watchedService.OnStatusChanged += Raise.Event();
                     break;
             }
 
-            Thread.Sleep(250);
-            counter++;
+            Thread.Sleep(waitMilliseconds);
+            millisecondsWatched += waitMilliseconds;
         }
         
         target.ActiveConfig.Should().Be(expectedActiveConfig);
