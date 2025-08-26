@@ -12,10 +12,13 @@
         <ui:TitleBar DockPanel.Dock="Top" Title="{Binding TitleText, Mode=OneWay}" Icon="pack://application:,,,/GfxManWpf;component/Assets/2d-devworks.ico" ></ui:TitleBar>
         <Menu DockPanel.Dock="Top">
             <ui:MenuItem Header="_File">
-                <MenuItem Header="New Game" Click="AddGameButton_OnClick"></MenuItem>
-                <MenuItem Header="New Configuration" Click="AddConfigurationButton_OnClick"></MenuItem>
+                <MenuItem Header="New _Game" Click="AddGameButton_OnClick" />
+                <MenuItem Header="New _Configuration" Click="AddConfigurationButton_OnClick" />
                 <Separator />
-                <MenuItem Header="E_xit" Click="OnExitClicked"></MenuItem>
+                <MenuItem Header="_Backup..." Click="OnBackupClicked" />
+                <MenuItem Header="_Restore..." Click="OnRestoreClicked" />
+                <Separator />
+                <MenuItem Header="E_xit" Click="OnExitClicked" />
             </ui:MenuItem>
         </Menu>
         <StackPanel DockPanel.Dock="Top" Margin="12" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" >

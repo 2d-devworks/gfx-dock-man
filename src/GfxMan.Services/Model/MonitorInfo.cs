@@ -2,7 +2,7 @@
 
 public class MonitorInfo
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public uint MaximumPixelWidth { get; set; } = 1920;
     

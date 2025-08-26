@@ -7,7 +7,7 @@ namespace GfxMan.Services;
 public class GraphicsSettingManager : HasOnStatusChangedEventServiceBase, IGraphicsSettingManager
 {
     public GfxManConfiguration Configuration { get; set; }
-    public string CurrentDisplayAdapter { get; private set; }
+    public string CurrentDisplayAdapter { get; private set; } = string.Empty;
     public uint CurrentDisplayMaxWidth => _primaryMonitorService.PrimaryMonitor.MaximumPixelWidth;
     public uint CurrentDisplayMaxHeight => _primaryMonitorService.PrimaryMonitor.MaximumPixelHeight;
 
@@ -132,11 +132,5 @@ public class GraphicsSettingManager : HasOnStatusChangedEventServiceBase, IGraph
     {
         Configuration.ActiveConfiguration = ActiveConfig;
         _settingsFileService.SaveConfiguration(Configuration);
-    }
-
-    public void Dispose()
-    {
-        _primaryDisplayAdapterService.OnStatusChanged -= OnPrimaryDisplayAdapterOrMonitorChanged;
-        _primaryMonitorService.OnStatusChanged -= OnPrimaryDisplayAdapterOrMonitorChanged;
     }
 }

@@ -18,7 +18,8 @@ namespace GfxManWpf;
 public partial class MainWindow : INotifyPropertyChanged
 {
     private readonly IGraphicsSettingManager _graphicsSettingManager;
-    
+    private readonly IBackupFilesService _backupFilesService;
+
     public string StatusText => _graphicsSettingManager.ActiveConfig;
     
     public string TitleText => string.Format(App.TitleText, StatusText);
@@ -35,9 +36,10 @@ public partial class MainWindow : INotifyPropertyChanged
         set => _graphicsSettingManager.Configuration.ConfigurationOptions = value;
     }
 
-    public MainWindow(IGraphicsSettingManager graphicsSettingManager)
+    public MainWindow(IGraphicsSettingManager graphicsSettingManager, IBackupFilesService backupFilesService)
     {
         _graphicsSettingManager = graphicsSettingManager;
+        _backupFilesService = backupFilesService;
         _graphicsSettingManager.OnStatusChanged += (_,_) =>
         {
             Dispatcher.BeginInvoke(new Action(() =>
@@ -179,5 +181,36 @@ public partial class MainWindow : INotifyPropertyChanged
     private void OnExitClicked(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
+    }
+
+    private void OnBackupClicked(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            _backupFilesService.BackupGameSettingsFiles(_graphicsSettingManager.Configuration);
+            MessageBox.Show("Settings files have been backed up.");
+        }
+        catch
+        {
+            MessageBox.Show("An error occurred while backing up the settings.");
+        }
+        
+    }
+
+    private void OnRestoreClicked(object sender, RoutedEventArgs e)
+    {
+        var result = MessageBox.Show("This will overwrite all game configurations the latest backed-up versions. Proceed?", "Restore Configurations",  MessageBoxButton.YesNo);
+        if (result == MessageBoxResult.Yes)
+        {
+            try
+            {
+                _backupFilesService.RestoreGameSettingsFiles(_graphicsSettingManager.Configuration, StatusText);
+                MessageBox.Show("Settings files have been restored from backup.");
+            }
+            catch
+            {
+                MessageBox.Show("An error occurred while restoring the settings.");
+            }   
+        }
     }
 }

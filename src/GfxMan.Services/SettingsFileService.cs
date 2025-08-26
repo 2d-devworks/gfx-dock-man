@@ -1,30 +1,23 @@
-﻿using System.IO.Abstractions;
-using System.Text.Json;
+﻿using System.Text.Json;
 using GfxMan.Services.Interfaces;
 using GfxMan.Services.Model;
 using Microsoft.Extensions.Logging;
 
 namespace GfxMan.Services;
 
-public class SettingsFileService(IFileSystem fileSystem, ILogger<SettingsFileService> logger) : ISettingsFileService
+public class SettingsFileService(IAppFileSystem fileSystem, ILogger<SettingsFileService> logger) : ISettingsFileService
 {
-    private const string AppDataFolder = "2d-devworks\\GfxMan";
-    private const string SettingsFileName = "settings.json";
     
-    private string GetAppDataPath()
-    {
-        var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        return fileSystem.Path.Combine(appDataPath, AppDataFolder);
-    }
+    private const string SettingsFileName = "settings.json";
     
     private string GetSettingsFilePath()
     {
-        return fileSystem.Path.Combine(GetAppDataPath(), SettingsFileName);
+        return fileSystem.Path.Combine(fileSystem.GetAppDataPath(), SettingsFileName);
     }
 
     public void SaveConfiguration(GfxManConfiguration configuration)
     {
-        var directory = GetAppDataPath();
+        var directory = fileSystem.GetAppDataPath();
         if (!fileSystem.Directory.Exists(directory))
         {
             fileSystem.Directory.CreateDirectory(directory!);

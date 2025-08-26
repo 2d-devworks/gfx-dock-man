@@ -17,7 +17,7 @@ public class PrimaryDisplayAdapterService : HasOnStatusChangedEventServiceBase, 
         GetCurrentState();
     }
 
-    public DisplayAdapterInfo PrimaryDisplayAdapter { get; private set; }
+    public DisplayAdapterInfo? PrimaryDisplayAdapter { get; private set; }
     
     public void WatchForChanges(CancellationToken cancellationToken)
     {

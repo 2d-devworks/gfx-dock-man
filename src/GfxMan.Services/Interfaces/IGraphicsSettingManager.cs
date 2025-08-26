@@ -2,7 +2,7 @@
 
 namespace GfxMan.Services.Interfaces;
 
-public interface IGraphicsSettingManager: IDisposable, IHasOnStatusChangedEvent
+public interface IGraphicsSettingManager: IHasOnStatusChangedEvent
 {
     string ActiveConfig { get; }
     

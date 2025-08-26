@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Graphics Settings Manager (GfxMan)"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.0"
 #define MyAppPublisher "2D Devworks, LLC"
 #define MyAppURL "https://2ddev.com"
 #define MyAppExeName "GfxManWpf.exe"
@@ -46,15 +46,15 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "src/GfxManWpf/bin/Release/net481/{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src/GfxManWpf/bin/Release/net481/lib/*"; DestDir: "{app}/lib"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "src/GfxManWpf/bin/Release/net481/GfxManWpf.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\GfxManWpf\bin\Release\net481\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\GfxManWpf\bin\Release\net481\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "src\GfxManWpf\bin\Release\net481\GfxManWpf.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}/{#MyAppName}"; Filename: "{app}/{#MyAppExeName}"
-Name: "{autodesktop}/{#MyAppName}"; Filename: "{app}/{#MyAppExeName}"; Tasks: desktopicon
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}/{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 

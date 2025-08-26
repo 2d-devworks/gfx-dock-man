@@ -53,7 +53,7 @@ public class SystemMonitorInfoService: HasOnStatusChangedEventServiceBase, ISyst
         InvokeStatusChangedEvent(EventArgs.Empty);
     }
     
-    private string GetDeviceManagerNameForMonitor(string monitorDeviceId)
+    private string? GetDeviceManagerNameForMonitor(string monitorDeviceId)
     {
         if (string.IsNullOrWhiteSpace(monitorDeviceId))
             return null;
@@ -88,7 +88,7 @@ public class SystemMonitorInfoService: HasOnStatusChangedEventServiceBase, ISyst
                     var deviceDesc = instanceKey.GetValue("FriendlyName") as string;
                     if (string.IsNullOrWhiteSpace(deviceDesc)) continue;
                     
-                    deviceDesc = deviceDesc.Replace("(%1);", string.Empty);
+                    deviceDesc = deviceDesc?.Replace("(%1);", string.Empty);
                     return deviceDesc.Contains(';') ? deviceDesc.Split(';').Last().Trim() : deviceDesc.Trim();
                 }
             }
@@ -198,8 +198,8 @@ public class SystemMonitorInfoService: HasOnStatusChangedEventServiceBase, ISyst
     }
 
     [DllImport("user32.dll", CharSet = CharSet.Ansi)]
-    private static extern bool EnumDisplayDevices(string lpDevice, uint deviceNum, ref DisplayDevice displayDevice, uint flags);
+    private static extern bool EnumDisplayDevices(string? lpDevice, uint deviceNum, ref DisplayDevice displayDevice, uint flags);
     
     [DllImport("user32.dll")]
-    private static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref DevMode devMode);
+    private static extern bool EnumDisplaySettings(string? deviceName, int modeNum, ref DevMode devMode);
 }

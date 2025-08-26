@@ -4,7 +4,7 @@ namespace GfxMan.Services;
 
 public abstract class HasOnStatusChangedEventServiceBase: IHasOnStatusChangedEvent
 {
-    private event EventHandler StatusChangedEvent;
+    private event EventHandler? StatusChangedEvent;
     private readonly object _objectLock = new ();
     
     public event EventHandler OnStatusChanged
